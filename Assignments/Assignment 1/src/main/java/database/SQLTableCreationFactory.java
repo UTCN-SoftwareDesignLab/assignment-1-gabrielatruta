@@ -53,27 +53,21 @@ public class SQLTableCreationFactory {
                         "    ON DELETE CASCADE\n" +
                         "    ON UPDATE CASCADE);";
 
+            case ACTIVITY:
+                return "CREATE TABLE `activity` (\n" +
+                    "  `id` INT NOT NULL AUTO_INCREMENT,\n" +
+                    "  `employeeID` INT NOT NULL,\n" +
+                    "  `date` DATETIME NOT NULL,\n" +
+                    "  `activity` VARCHAR(100) NOT NULL,\n" +
+                    "  PRIMARY KEY (`id`),\n" +
+                    "  INDEX `employeeID_idx` (`employeeID` ASC) VISIBLE,\n" +
+                    "  CONSTRAINT `employeeID`\n" +
+                    "    FOREIGN KEY (`employeeID`)\n" +
+                    "    REFERENCES `assignment1_test`.`user` (`id`)\n" +
+                    "    ON DELETE CASCADE\n" +
+                    "    ON UPDATE CASCADE);";
 
 
-//            case REPORT:
-//                return "  CREATE TABLE IF NOT EXISTS account_client (" +
-//                        "  id INT NOT NULL AUTO_INCREMENT," +
-//                        "  client_id INT NOT NULL," +
-//                        "  account_id INT NOT NULL," +
-//                        "  PRIMARY KEY (id)," +
-//                        "  UNIQUE INDEX id_UNIQUE (id ASC)," +
-//                        "  INDEX client_id_idx (role_id ASC)," +
-//                        "  INDEX account_id_idx (right_id ASC)," +
-//                        "  CONSTRAINT client_id" +
-//                        "    FOREIGN KEY (client_id)" +
-//                        "    REFERENCES client (id)" +
-//                        "    ON DELETE CASCADE" +
-//                        "    ON UPDATE CASCADE," +
-//                        "  CONSTRAINT account_id" +
-//                        "    FOREIGN KEY (account_id)" +
-//                        "    REFERENCES `account` (id)" +
-//                        "    ON DELETE CASCADE" +
-//                        "    ON UPDATE CASCADE);";
 
             default:
                 return "";

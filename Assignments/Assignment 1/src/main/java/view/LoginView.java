@@ -28,7 +28,6 @@ public class LoginView extends JFrame {
         add(tfPassword);
         add(btnLogin);
 
-
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 

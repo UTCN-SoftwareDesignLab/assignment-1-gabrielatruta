@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="service.employee.EmployeeServiceMySQLTest" tests="15" skipped="0" failures="0" errors="0" timestamp="2021-03-29T12:06:34" hostname="DESKTOP-7BA1TPA" time="0.71">
+<testsuite name="service.employee.EmployeeServiceMySQLTest" tests="15" skipped="0" failures="0" errors="0" timestamp="2021-03-29T16:59:13" hostname="DESKTOP-7BA1TPA" time="1.567">
   <properties/>
-  <testcase name="findAccountByClient" classname="service.employee.EmployeeServiceMySQLTest" time="0.066"/>
-  <testcase name="updateAmountOfMoney" classname="service.employee.EmployeeServiceMySQLTest" time="0.07"/>
-  <testcase name="updateClientSurname" classname="service.employee.EmployeeServiceMySQLTest" time="0.066"/>
-  <testcase name="findByFullName" classname="service.employee.EmployeeServiceMySQLTest" time="0.053"/>
-  <testcase name="viewAccount" classname="service.employee.EmployeeServiceMySQLTest" time="0.033"/>
-  <testcase name="updateClientICN" classname="service.employee.EmployeeServiceMySQLTest" time="0.036"/>
-  <testcase name="updatePhone" classname="service.employee.EmployeeServiceMySQLTest" time="0.035"/>
-  <testcase name="updateMail" classname="service.employee.EmployeeServiceMySQLTest" time="0.037"/>
-  <testcase name="updateType" classname="service.employee.EmployeeServiceMySQLTest" time="0.037"/>
-  <testcase name="view" classname="service.employee.EmployeeServiceMySQLTest" time="0.061"/>
-  <testcase name="removeAccount" classname="service.employee.EmployeeServiceMySQLTest" time="0.068"/>
-  <testcase name="findByCNP" classname="service.employee.EmployeeServiceMySQLTest" time="0.039"/>
-  <testcase name="createAccount" classname="service.employee.EmployeeServiceMySQLTest" time="0.035"/>
-  <testcase name="createClient" classname="service.employee.EmployeeServiceMySQLTest" time="0.035"/>
-  <testcase name="updateAddress" classname="service.employee.EmployeeServiceMySQLTest" time="0.038"/>
-  <system-out><![CDATA[[model.Client@1fd1e33c]
+  <testcase name="findAccountByClient" classname="service.employee.EmployeeServiceMySQLTest" time="0.142"/>
+  <testcase name="updateAmountOfMoney" classname="service.employee.EmployeeServiceMySQLTest" time="0.091"/>
+  <testcase name="updateClientSurname" classname="service.employee.EmployeeServiceMySQLTest" time="0.085"/>
+  <testcase name="findByFullName" classname="service.employee.EmployeeServiceMySQLTest" time="0.078"/>
+  <testcase name="viewAccount" classname="service.employee.EmployeeServiceMySQLTest" time="0.081"/>
+  <testcase name="updateClientICN" classname="service.employee.EmployeeServiceMySQLTest" time="0.093"/>
+  <testcase name="updatePhone" classname="service.employee.EmployeeServiceMySQLTest" time="0.092"/>
+  <testcase name="updateMail" classname="service.employee.EmployeeServiceMySQLTest" time="0.087"/>
+  <testcase name="updateType" classname="service.employee.EmployeeServiceMySQLTest" time="0.075"/>
+  <testcase name="view" classname="service.employee.EmployeeServiceMySQLTest" time="0.071"/>
+  <testcase name="removeAccount" classname="service.employee.EmployeeServiceMySQLTest" time="0.082"/>
+  <testcase name="findByCNP" classname="service.employee.EmployeeServiceMySQLTest" time="0.22"/>
+  <testcase name="createAccount" classname="service.employee.EmployeeServiceMySQLTest" time="0.194"/>
+  <testcase name="createClient" classname="service.employee.EmployeeServiceMySQLTest" time="0.093"/>
+  <testcase name="updateAddress" classname="service.employee.EmployeeServiceMySQLTest" time="0.079"/>
+  <system-out><![CDATA[[model.Client@5cdd8cf9]
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -30,21 +30,18 @@ public class UserRepositoryMySQLTest {
     public void cleanUp(){
         userRepository.removeAll();
 
-        roleRepository.addRole(EMPLOYEE);
-        Role role = roleRepository.findRoleByName(EMPLOYEE).getResult();
-
         userRepository.save(new UserBuilder()
                 .setId(-1L)
                 .setUsername("gabriela.truta1899@gmail.com")
                 .setPassword("gabrielaT3!")
-                .setRole(role)
+                .setRole(roleRepository.findRoleByName(EMPLOYEE).getResult())
                 .build());
 
         userRepository.save(new UserBuilder()
                 .setId(-1L)
                 .setUsername("diana.dada@yahoo.com")
                 .setPassword("dianaA67*")
-                .setRole(role)
+                .setRole(roleRepository.findRoleByName(EMPLOYEE).getResult())
                 .build());
 
     }

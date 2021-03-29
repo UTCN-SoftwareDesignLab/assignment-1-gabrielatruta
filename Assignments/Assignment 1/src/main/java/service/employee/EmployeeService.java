@@ -38,4 +38,6 @@ public interface EmployeeService {
 
     Notification<Client> findByFullName(String name, String surname);
 
+    boolean transferMoney (Account sender, Account receiver, Long amountOfMoney);
+
 }

@@ -4,7 +4,6 @@ import model.Role;
 import model.User;
 import model.builder.RoleBuilder;
 import model.builder.UserBuilder;
-import service.user.AuthenticationService;
 import service.user.AuthenticationServiceMySQL;
 
 public class Constants {
@@ -20,10 +19,9 @@ public class Constants {
         public static final String CLIENT = "client";
         public static final String ROLE = "role";
         public static final String USER = "user";
-        // public static final String REPORT = "report";
+        public static final String ACTIVITY = "activity";
 
-        //public static final String[] ORDERED_TABLES_FOR_CREATION = new String[]{ACCOUNT, CLIENT, USER, ROLE, REPORT};
-        public static final String[] ORDERED_TABLES_FOR_CREATION = new String[]{ROLE, USER, CLIENT, ACCOUNT};
+        public static final String[] ORDERED_TABLES_FOR_CREATION = new String[]{ROLE, USER, CLIENT, ACCOUNT, ACTIVITY};
 
     }
 
@@ -35,7 +33,7 @@ public class Constants {
     }
 
     public static class Users {
-        private static final Role admin = new RoleBuilder()
+        private static final Role adminRole = new RoleBuilder()
                 .setID(-1L)
                 .setRole("administrator")
                 .build();
@@ -43,7 +41,7 @@ public class Constants {
                 .setId(-1L)
                 .setUsername("gabriela.truta99@yahoo.com")
                 .setPassword(AuthenticationServiceMySQL.encodePassword("gabrielaTruta3!"))
-                .setRole(admin)
+                .setRole(adminRole)
                 .build();
 
         public static final User[] USERS = new User[]{ADMIN};

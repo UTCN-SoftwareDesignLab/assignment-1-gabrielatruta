@@ -2,7 +2,6 @@ package service.employee;
 
 import launcher.ComponentFactory;
 import model.Account;
-import model.Client;
 import model.builder.AccountBuilder;
 import model.builder.ClientBuilder;
 import org.junit.Assert;
@@ -15,7 +14,6 @@ import repository.client.ClientRepository;
 import java.sql.Date;
 import java.time.LocalDate;
 
-import static org.junit.Assert.*;
 
 public class EmployeeServiceMySQLTest {
 
@@ -84,7 +82,7 @@ public class EmployeeServiceMySQLTest {
 
     @Test
     public void removeAccount() {
-        Assert.assertTrue(employeeService.removeAccount(-1L));
+        Assert.assertTrue(employeeService.removeAccount(accountRepository.findAccountByClient(clientRepository.findByCNP(TEST_CNP).getResult().getId()).getResult().getAccountID()));
     }
 
     @Test

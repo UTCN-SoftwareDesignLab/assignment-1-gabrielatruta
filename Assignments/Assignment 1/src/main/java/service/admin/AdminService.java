@@ -1,8 +1,10 @@
 package service.admin;
 
+import model.Activity;
 import model.User;
 import model.validation.Notification;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface AdminService {

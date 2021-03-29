@@ -2,7 +2,6 @@ package repository.account;
 
 import database.DBConnectionFactory;
 import model.Account;
-import model.Client;
 import model.builder.AccountBuilder;
 import model.builder.ClientBuilder;
 import org.junit.*;

@@ -18,6 +18,7 @@ public class UserRepositoryMySQL implements UserRepository{
     public UserRepositoryMySQL(Connection connection, RoleRepository roleRepository) {
         this.connection = connection;
         this.roleRepository = roleRepository;
+
     }
 
 
@@ -108,7 +109,8 @@ public class UserRepositoryMySQL implements UserRepository{
                     .prepareStatement("INSERT IGNORE INTO "+ USER +" values (null, ?, ?, ?)");
             insertStatement.setString(1, user.getUsername());
             insertStatement.setString(2, user.getPassword());
-            insertStatement.setLong(3, user.getRole().getId());
+            insertStatement.setLong(3, roleRepository.findRoleByName(user.getRole().getName()).getResult().getId());
+            System.out.println(insertStatement);
             insertStatement.executeUpdate();
             return true;
 

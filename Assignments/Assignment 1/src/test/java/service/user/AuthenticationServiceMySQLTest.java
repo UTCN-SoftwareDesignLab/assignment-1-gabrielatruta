@@ -39,7 +39,7 @@ public class AuthenticationServiceMySQLTest {
     }
 
     @Test
-    public void login() throws Exception {
+    public void login() {
         authenticationService.register(TEST_USERNAME, TEST_PASSWORD);
         User user = authenticationService.login(TEST_USERNAME, TEST_PASSWORD).getResult();
         Assert.assertNotNull(user);

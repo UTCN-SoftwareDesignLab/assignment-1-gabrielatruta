@@ -3,7 +3,6 @@ package repository.account;
 import model.Account;
 import model.builder.AccountBuilder;
 import model.validation.Notification;
-import repository.client.ClientRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,11 +13,9 @@ import static database.Constants.Tables.ACCOUNT;
 public class AccountRepositoryMySQL implements AccountRepository{
 
     private final Connection connection;
-    //private final ClientRepository clientRepository;
 
     public AccountRepositoryMySQL(Connection connection) {
         this.connection = connection;
-        //this.clientRepository = clientRepository;
     }
 
     @Override

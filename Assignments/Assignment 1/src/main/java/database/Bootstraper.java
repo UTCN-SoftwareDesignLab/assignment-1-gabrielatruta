@@ -15,7 +15,7 @@ import static database.Constants.Roles.ROLES;
 import static database.Constants.Schemas.SCHEMAS;
 import static database.Constants.Users.USERS;
 
-public class Boostraper {
+public class Bootstraper {
 
     private RoleRepository roleRepository;
     private UserRepository userRepository;
@@ -37,7 +37,7 @@ public class Boostraper {
 
             String[] dropStatements = {
 
-                    "DROP TABLE IF EXISTS `role`, `account`, `client`, `user`;"
+                    "DROP TABLE IF EXISTS `role`, `account`, `client`, `activity`, `user`;"
             };
 
             Arrays.stream(dropStatements).forEach(dropStatement -> {
@@ -78,8 +78,8 @@ public class Boostraper {
             System.out.println("Bootstrapping user data for " + schema);
 
             JDBConnectionWrapper connectionWrapper = new JDBConnectionWrapper(schema);
-            userRepository = new UserRepositoryMySQL(connectionWrapper.getConnection(), roleRepository);
             roleRepository = new RoleRepositoryMySQL(connectionWrapper.getConnection());
+            userRepository = new UserRepositoryMySQL(connectionWrapper.getConnection(), roleRepository);
 
             bootstrapRoles();
             bootstrapUsers();

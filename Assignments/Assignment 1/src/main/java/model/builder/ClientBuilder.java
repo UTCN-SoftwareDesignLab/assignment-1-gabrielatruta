@@ -1,6 +1,5 @@
 package model.builder;
 
-import model.Account;
 import model.Client;
 
 public class ClientBuilder {

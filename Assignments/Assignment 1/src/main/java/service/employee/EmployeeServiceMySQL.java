@@ -184,4 +184,11 @@ public class EmployeeServiceMySQL implements EmployeeService {
     public Notification<Client> findByFullName(String name, String surname) {
         return clientRepository.findByFullName(name, surname);
     }
+
+    @Override
+    public boolean transferMoney(Account sender, Account receiver, Long amountOfMoney) {
+        Long afterSending = sender.getAmountOfMoney() - amountOfMoney;
+        Long afterReceiving = receiver.getAmountOfMoney() + amountOfMoney;
+        return accountRepository.updateAmountOfMoney(sender.getAccountID(), afterSending) && accountRepository.updateAmountOfMoney(receiver.getAccountID(), afterReceiving);
+    }
 }

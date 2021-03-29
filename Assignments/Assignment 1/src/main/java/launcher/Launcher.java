@@ -1,6 +1,6 @@
 package launcher;
 
-import database.Boostraper;
+import database.Bootstraper;
 import database.DBConnectionFactory;
 
 import java.sql.SQLException;
@@ -14,7 +14,7 @@ public class Launcher {
 
     public static void main(String[] args) throws SQLException {
 
-        boolean databaseWorks = new DBConnectionFactory().getConnectionWrapper(true).testConnection();
+        boolean databaseWorks = new DBConnectionFactory().getConnectionWrapper(false).testConnection();
         System.out.println("database works: " + databaseWorks);
 
         bootstrap();
@@ -27,7 +27,7 @@ public class Launcher {
     private static void bootstrap() {
         if (BOOTSTRAP) {
             try {
-                new Boostraper().execute();
+                new Bootstraper().execute();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
