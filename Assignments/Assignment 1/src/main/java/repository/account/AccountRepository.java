@@ -7,9 +7,11 @@ import java.util.List;
 
 public interface AccountRepository {
 
-    Notification<Account> findAccountById(Long accoundID);
+    Notification<Account> findAccountById(Long accountID);
 
     Notification<Account> findAccountByClient(Long clientID);
+
+    Notification<Account> findAccountByICN(String ICN);
 
     List<Account> findAll();
 
@@ -17,9 +19,9 @@ public interface AccountRepository {
 
     boolean save(Account account);
 
-   boolean updateType(Long id, String type);
+   Notification<Boolean> updateAccount(Account account);
 
-   boolean updateAmountOfMoney(Long id, Long money);
+   Notification<Boolean> transferMoney(Account sender, Account receiver, Long amountOfMoney);
 
     void removeAll();
 

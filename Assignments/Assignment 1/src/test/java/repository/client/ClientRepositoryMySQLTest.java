@@ -74,29 +74,10 @@ public class ClientRepositoryMySQLTest {
                 .build()));
     }
 
-    @Test
-    public void updateClientSurname() {
-        Assert.assertTrue(clientRepository.updateClientSurname(clientRepository.findById(1L).getResult(), "Nicoara"));
-    }
-
-    @Test
-    public void updateClientICN() {
-        Assert.assertTrue(clientRepository.updateClientICN(clientRepository.findById(1L).getResult(), "SX781126"));
-    }
-
-    @Test
-    public void updateAddress() {
-        Assert.assertTrue(clientRepository.updateAddress(clientRepository.findById(1L).getResult(), "str. Norocului"));
-    }
-
-    @Test
-    public void updateMail() {
-        Assert.assertTrue(clientRepository.updateMail(clientRepository.findById(1L).getResult(), "den_denisa@yahoo.com"));
-    }
 
     @Test
     public void updatePhone() {
-        Assert.assertTrue(clientRepository.updatePhone(clientRepository.findById(1L).getResult(), "0720065842"));
+        Assert.assertTrue(clientRepository.updateClient(clientRepository.findByCNP("2990328314072").getResult()).getResult());
     }
 
     @Test

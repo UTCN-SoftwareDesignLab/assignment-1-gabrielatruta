@@ -3,7 +3,6 @@ package repository.client;
 import model.Client;
 import model.builder.ClientBuilder;
 import model.validation.Notification;
-import repository.account.AccountRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -46,18 +45,7 @@ public class ClientRepositoryMySQL implements ClientRepository {
             String query = "Select * from " + CLIENT + " where id=" + id;
             ResultSet resultSet = statement.executeQuery(query);
             if(resultSet.next()) {
-                Client client = new ClientBuilder()
-                        .setID(resultSet.getLong("id"))
-                        .setName(resultSet.getString("name"))
-                        .setSurname(resultSet.getString("surname"))
-                        .setIdentityCardNumber(resultSet.getString("identityCardNumber"))
-                        .setCNP(resultSet.getString("cnp"))
-                        .setAddress(resultSet.getString("address"))
-                        .setMail(resultSet.getString("mail"))
-                        .setPhone(resultSet.getString("phone"))
-                        .build();
-
-                findByIDNotification.setResult(client);
+                findByIDNotification.setResult(getClientFromResultSet(resultSet));
                 return findByIDNotification;
             } else {
                 findByIDNotification.addError("Invalid Client ID!");
@@ -78,17 +66,7 @@ public class ClientRepositoryMySQL implements ClientRepository {
             String query = "Select * from " + CLIENT + " where cnp=" + CNP;
             ResultSet resultSet = statement.executeQuery(query);
             if(resultSet.next()) {
-                Client client = new ClientBuilder()
-                        .setID(resultSet.getLong("id"))
-                        .setName(resultSet.getString("name"))
-                        .setSurname(resultSet.getString("surname"))
-                        .setIdentityCardNumber(resultSet.getString("identityCardNumber"))
-                        .setCNP(resultSet.getString("cnp"))
-                        .setAddress(resultSet.getString("address"))
-                        .setMail(resultSet.getString("mail"))
-                        .setPhone(resultSet.getString("phone"))
-                        .build();
-                findByCNPNotification.setResult(client);
+                findByCNPNotification.setResult(getClientFromResultSet(resultSet));
                 return findByCNPNotification;
             } else {
                 findByCNPNotification.addError("Invalid CNP!");
@@ -109,18 +87,7 @@ public class ClientRepositoryMySQL implements ClientRepository {
             String query = "Select * from " + CLIENT + " where name= '" + name + "' and surname= '" + surname + "'";
             ResultSet resultSet = statement.executeQuery(query);
             if(resultSet.next()) {
-                Client client = new ClientBuilder()
-                        .setID(resultSet.getLong("id"))
-                        .setName(resultSet.getString("name"))
-                        .setSurname(resultSet.getString("surname"))
-                        .setIdentityCardNumber(resultSet.getString("identityCardNumber"))
-                        .setCNP(resultSet.getString("cnp"))
-                        .setAddress(resultSet.getString("address"))
-                        .setMail(resultSet.getString("mail"))
-                        .setPhone(resultSet.getString("phone"))
-                        .build();
-
-                findByFullNameNotification.setResult(client);
+                findByFullNameNotification.setResult(getClientFromResultSet(resultSet));
                 return findByFullNameNotification;
             } else {
                 findByFullNameNotification.addError("Invalid Name or Surname!");
@@ -154,68 +121,28 @@ public class ClientRepositoryMySQL implements ClientRepository {
     }
 
     @Override
-    public boolean updateClientSurname(Client client, String surname) {
+    public Notification<Boolean> updateClient(Client client) {
+        Notification<Boolean> notification = new Notification<>();
         try {
-            Statement statement = connection.createStatement();
-            String query = "UPDATE "+ CLIENT + " SET surname= '" + surname + "' WHERE id=" + client.getId();
-            statement.executeUpdate(query);
-            return true;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return false;
-        }
-    }
+            PreparedStatement insertStatement = connection
+                    .prepareStatement("UPDATE `" + CLIENT + "` SET  name = ?, surname = ?, identityCardNumber = ?, cnp = ?, address = ?, mail = ?, phone = ? WHERE id = ?");
+            insertStatement.setString(1, client.getName());
+            insertStatement.setString(2, client.getSurname());
+            insertStatement.setString(3, client.getIdentityCardNumber());
+            insertStatement.setString(4, client.getAddress());
+            insertStatement.setString(5, client.getAddress());
+            insertStatement.setString(6, client.getMail());
+            insertStatement.setString(7, client.getPhoneNumber());
+            insertStatement.setLong(8, client.getId());
+            insertStatement.executeUpdate();
+            notification.setResult(true);
 
-    @Override
-    public boolean updateClientICN(Client client, String ICN) {
-        try {
-            Statement statement = connection.createStatement();
-            String query = "UPDATE "+ CLIENT + " SET identityCardNumber= '" + ICN + "' WHERE id=" + client.getId();
-            statement.executeUpdate(query);
-            return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            return false;
+            notification.addError("There is an error in the database!");
+            notification.setResult(false);
         }
-    }
-
-    @Override
-    public boolean updateAddress(Client client, String address) {
-        try {
-            Statement statement = connection.createStatement();
-            String query = "UPDATE "+ CLIENT + " SET address= '" + address + "' WHERE id=" + client.getId();
-            statement.executeUpdate(query);
-            return true;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return false;
-        }
-    }
-
-    @Override
-    public boolean updateMail(Client client, String mail) {
-        try {
-            Statement statement = connection.createStatement();
-            String query = "UPDATE "+ CLIENT + " SET mail= '" + mail + "' WHERE id=" + client.getId();
-            statement.executeUpdate(query);
-            return true;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return false;
-        }
-    }
-
-    @Override
-    public boolean updatePhone(Client client, String phone) {
-        try {
-            Statement statement = connection.createStatement();
-            String query = "UPDATE "+ CLIENT + " SET phone=" + phone + " WHERE id=" + client.getId();
-            statement.executeUpdate(query);
-            return true;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return false;
-        }
+        return notification;
     }
 
     @Override

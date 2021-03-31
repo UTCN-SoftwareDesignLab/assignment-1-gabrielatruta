@@ -37,13 +37,24 @@ public class Constants {
                 .setID(-1L)
                 .setRole("administrator")
                 .build();
+        private static final Role employeeRole = new RoleBuilder()
+                .setID(-1L)
+                .setRole("employee")
+                .build();
         public static final User ADMIN = new UserBuilder()
                 .setId(-1L)
                 .setUsername("gabriela.truta99@yahoo.com")
                 .setPassword(AuthenticationServiceMySQL.encodePassword("gabrielaTruta3!"))
                 .setRole(adminRole)
                 .build();
+        public static final User EMPLOYEE_DB = new UserBuilder()
+                .setId(-1L)
+                .setUsername("gabriela@yahoo.com")
+                .setPassword(AuthenticationServiceMySQL.encodePassword("gabrielaTruta3!"))
+                .setRole(employeeRole)
+                .build();
 
-        public static final User[] USERS = new User[]{ADMIN};
+
+        public static final User[] USERS = new User[]{ADMIN, EMPLOYEE_DB};
     }
 }

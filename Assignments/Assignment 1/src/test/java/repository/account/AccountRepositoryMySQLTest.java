@@ -107,13 +107,29 @@ public class AccountRepositoryMySQLTest {
     }
 
     @Test
-    public void updateType() {
-        Assert.assertTrue(accountRepository.updateType(2L, "debit"));
+    public void updateAccount() {
+        Account account = new AccountBuilder()
+                .setID(-1L)
+                .setClientID(clientRepository.findByCNP("2990318314028").getResult().getId())
+                .setIdentificationNumber("1781 7181 9181")
+                .setAmountMoney(1976191L)
+                .setType("debit")
+                .setCreationDate(Date.valueOf(LocalDate.now()))
+                .build();
+        accountRepository.save(account);
+        Assert.assertTrue(accountRepository.updateAccount(account).getResult());
     }
 
     @Test
-    public void updateAmountOfMoney() {
-        Assert.assertTrue(accountRepository.updateAmountOfMoney(2L, 179185L));
+    public void findAccountByICN() {
+        Assert.assertFalse(accountRepository.findAccountByICN("RO68 RZBR 0000 0600 2053 9307").hasErrors());
+    }
+
+    @Test
+    public void trasnferMoney() {
+        Account sender = accountRepository.findAccountByICN("RO68 RZBR 0000 0600 2053 9307").getResult();
+        Account receiver = accountRepository.findAccountByICN("RO68 RZBR 0000 0600 5693 9707").getResult();
+        Assert.assertTrue(accountRepository.transferMoney(sender, receiver, sender.getAmountOfMoney()).getResult());
     }
 
     @Test

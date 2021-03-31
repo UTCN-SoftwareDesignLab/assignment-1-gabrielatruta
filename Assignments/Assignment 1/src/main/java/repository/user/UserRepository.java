@@ -1,6 +1,7 @@
 package repository.user;
 
 import model.User;
+import model.dto.UserDTO;
 import model.validation.Notification;
 
 import java.util.List;
@@ -15,7 +16,9 @@ public interface UserRepository {
 
     boolean save(User user);
 
-    boolean updatePassword (User user, String newPassword);
+    Notification<Boolean> updateUser(User user);
+
+    Notification<Boolean> updateUser(UserDTO userDTO);
 
     boolean deleteUser(String username);
 

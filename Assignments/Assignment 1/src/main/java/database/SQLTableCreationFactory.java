@@ -31,10 +31,10 @@ public class SQLTableCreationFactory {
                         "  `name` VARCHAR(45) NOT NULL,\n" +
                         "  `surname` VARCHAR(45) NOT NULL,\n" +
                         "  `identityCardNumber` VARCHAR(45) NOT NULL,\n" +
-                        "  `cnp` VARCHAR(13) NOT NULL,\n" +
+                        "  `cnp` VARCHAR(20) NOT NULL,\n" +
                         "  `address` VARCHAR(500) NOT NULL,\n" +
                         "  `mail` VARCHAR(100) NOT NULL,\n" +
-                        "  `phone` VARCHAR(10) NOT NULL,\n" +
+                        "  `phone` VARCHAR(20) NOT NULL,\n" +
                         "  PRIMARY KEY (`id`));";
 
             case ACCOUNT:
@@ -63,7 +63,7 @@ public class SQLTableCreationFactory {
                     "  INDEX `employeeID_idx` (`employeeID` ASC) VISIBLE,\n" +
                     "  CONSTRAINT `employeeID`\n" +
                     "    FOREIGN KEY (`employeeID`)\n" +
-                    "    REFERENCES `assignment1_test`.`user` (`id`)\n" +
+                    "    REFERENCES `user` (`id`)\n" +
                     "    ON DELETE CASCADE\n" +
                     "    ON UPDATE CASCADE);";
 

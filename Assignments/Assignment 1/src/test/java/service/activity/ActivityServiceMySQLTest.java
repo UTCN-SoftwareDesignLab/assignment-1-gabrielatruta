@@ -5,7 +5,6 @@ import model.User;
 import model.builder.ActivityBuilder;
 import model.builder.UserBuilder;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import repository.activity.ActivityRepository;
@@ -15,12 +14,10 @@ import repository.user.UserRepository;
 import java.sql.Date;
 import java.time.LocalDate;
 
-import static org.junit.Assert.*;
-
 public class ActivityServiceMySQLTest {
     private static RoleRepository roleRepository;
     private static ActivityRepository activityRepository;
-    private static ActivitySerivce activitySerivce;
+    private static ActivityService activityService;
     private static UserRepository userRepository;
 
     @BeforeClass
@@ -28,7 +25,7 @@ public class ActivityServiceMySQLTest {
         ComponentFactory componentFactory = ComponentFactory.instance(true);
         activityRepository = componentFactory.getActivityRepository();
         roleRepository = componentFactory.getRolesRepository();
-        activitySerivce = componentFactory.getActivitySerivce();
+        activityService = componentFactory.getActivityService();
         userRepository = componentFactory.getUserRepository();
     }
 
@@ -50,7 +47,7 @@ public class ActivityServiceMySQLTest {
                 .setActivity("Deleted an account from a client")
                 .build());
 
-        Assert.assertEquals(1, activitySerivce.generateActivity(user.getUsername(), LocalDate.now(), LocalDate.now()).size());
+        Assert.assertEquals(1, activityService.generateActivity(user.getUsername(), LocalDate.now(), LocalDate.now()).size());
     }
 
     @Test

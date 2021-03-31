@@ -19,7 +19,7 @@ public class Launcher {
 
         bootstrap();
 
-        ComponentFactory componentFactory = ComponentFactory.instance(true);
+        ComponentFactory componentFactory = ComponentFactory.instance(false);
         componentFactory.getLoginView().setVisible();
 
     }

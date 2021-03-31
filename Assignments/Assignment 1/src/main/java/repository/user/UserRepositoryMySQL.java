@@ -2,12 +2,14 @@ package repository.user;
 
 import model.User;
 import model.builder.UserBuilder;
+import model.dto.UserDTO;
 import model.validation.Notification;
 import repository.security.RoleRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
 import static database.Constants.Tables.USER;
 
 public class UserRepositoryMySQL implements UserRepository{
@@ -56,13 +58,7 @@ public class UserRepositoryMySQL implements UserRepository{
             String query =  "Select * from `" + USER + "` where `username`=\'" + username + "\' and `password`=\'" + password + "\'";
             ResultSet resultSet = statement.executeQuery(query);
             if(resultSet.next()) {
-                User user = new UserBuilder()
-                        .setId(resultSet.getLong("id"))
-                        .setUsername(resultSet.getString("username"))
-                        .setPassword(resultSet.getString("password"))
-                        .setRole(roleRepository.findRoleById(resultSet.getLong("role_id")).getResult())
-                        .build();
-                findByUsernameAndPasswordNotification.setResult(user);
+                findByUsernameAndPasswordNotification.setResult(getUserFromResultSet(resultSet));
                 return findByUsernameAndPasswordNotification;
             } else {
                 findByUsernameAndPasswordNotification.addError("Invalid username or password!");
@@ -83,13 +79,7 @@ public class UserRepositoryMySQL implements UserRepository{
             String query = "Select * from " + USER + " where username='" + username +"'";
             ResultSet resultSet = statement.executeQuery(query);
             if(resultSet.next()) {
-                User user = new UserBuilder()
-                        .setId(resultSet.getLong("id"))
-                        .setUsername(resultSet.getString("username"))
-                        .setPassword(resultSet.getString("password"))
-                        .setRole(roleRepository.findRoleById(resultSet.getLong("role_id")).getResult())
-                        .build();
-                findByUsernameNotification.setResult(user);
+                findByUsernameNotification.setResult(getUserFromResultSet(resultSet));
                 return findByUsernameNotification;
             } else {
                 findByUsernameNotification.addError("Invalid username!");
@@ -121,16 +111,43 @@ public class UserRepositoryMySQL implements UserRepository{
     }
 
     @Override
-    public boolean updatePassword(User user, String newPassword) {
+    public Notification<Boolean> updateUser(User user) {
+        Notification<Boolean> notification = new Notification<>();
         try {
-            Statement statement = connection.createStatement();
-            String query = "UPDATE "+ USER + " SET password= '" + newPassword + "' where username= '" + user.getUsername() +"'";
-            statement.executeUpdate(query);
-            return true;
+            PreparedStatement insertStatement = connection
+                    .prepareStatement("UPDATE `" + USER + "` SET  username = ?, password= ?, role_id = ? WHERE id = ?");
+            insertStatement.setString(1, user.getUsername());
+            insertStatement.setString(2, user.getPassword());
+            insertStatement.setLong(3, roleRepository.findRoleByName(user.getRole().getName()).getResult().getId());
+            insertStatement.setLong(4, user.getId());
+            insertStatement.executeUpdate();
+            notification.setResult(true);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            return false;
+            notification.addError("There is something wrong with the database");
+            notification.setResult(false);
         }
+        return notification;
+    }
+
+    @Override
+    public Notification<Boolean> updateUser(UserDTO userDTO) {
+        Notification<Boolean> notification = new Notification<>();
+        try {
+            PreparedStatement insertUserStatement = connection
+                    .prepareStatement("UPDATE `" + USER + "` SET username= ?, password = ?, role_id = ? WHERE id = ?");
+            insertUserStatement.setString(1, userDTO.getUsername());
+            insertUserStatement.setString(2, userDTO.getPassword());
+            insertUserStatement.setLong(3, roleRepository.findRoleByName(userDTO.getRole()).getResult().getId());
+            insertUserStatement.setLong(4, userDTO.getId());
+            insertUserStatement.executeUpdate();
+            notification.setResult(true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            notification.addError("There is something wrong with the database");
+            notification.setResult(true);
+        }
+        return notification;
     }
 
     @Override

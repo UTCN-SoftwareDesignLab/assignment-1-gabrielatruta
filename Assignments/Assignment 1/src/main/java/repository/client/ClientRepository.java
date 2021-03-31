@@ -17,15 +17,7 @@ public interface ClientRepository {
 
     boolean addClient(Client client);
 
-    boolean updateClientSurname(Client client, String surname);
-
-    boolean updateClientICN(Client client, String ICN);
-
-    boolean updateAddress(Client client, String address);
-
-    boolean updateMail(Client client, String mail);
-
-    boolean updatePhone(Client client, String phone);
+    Notification<Boolean> updateClient(Client client);
 
     void removeAll();
 }

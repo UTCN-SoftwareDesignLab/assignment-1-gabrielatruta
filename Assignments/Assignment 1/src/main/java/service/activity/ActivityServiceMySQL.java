@@ -6,7 +6,7 @@ import repository.activity.ActivityRepository;
 import java.time.LocalDate;
 import java.util.List;
 
-public class ActivityServiceMySQL implements ActivitySerivce{
+public class ActivityServiceMySQL implements ActivityService {
     private final ActivityRepository activityRepository;
 
     public ActivityServiceMySQL(ActivityRepository activityRepository) {

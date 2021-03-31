@@ -36,8 +36,11 @@ public class Bootstraper {
             Statement statement = connection.createStatement();
 
             String[] dropStatements = {
-
-                    "DROP TABLE IF EXISTS `role`, `account`, `client`, `activity`, `user`;"
+                    "DROP TABLE IF EXISTS `account`",
+                    "DROP TABLE IF EXISTS `client`",
+                    "DROP TABLE IF EXISTS `activity`",
+                    "DROP TABLE IF EXISTS `user`",
+                    "DROP TABLE IF EXISTS `role`",
             };
 
             Arrays.stream(dropStatements).forEach(dropStatement -> {

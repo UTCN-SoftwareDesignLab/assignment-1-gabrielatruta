@@ -26,15 +26,7 @@ public class AccountRepositoryMySQL implements AccountRepository{
             String query = "SELECT * FROM " + ACCOUNT + " WHERE id=" + accountID;
             ResultSet resultSet = statement.executeQuery(query);
             if(resultSet.next()){
-                Account account = new AccountBuilder()
-                        .setID(resultSet.getLong("id"))
-                        .setIdentificationNumber(resultSet.getString("identificationNumber"))
-                        .setType(resultSet.getString("type"))
-                        .setAmountMoney(resultSet.getLong("amountOfMoney"))
-                        .setCreationDate(resultSet.getDate("creationDate"))
-                        .setClientID(resultSet.getLong("client_id"))
-                        .build();
-                findAccountByIdNotification.setResult(account);
+                findAccountByIdNotification.setResult(getAccountFromResultSet(resultSet));
                 return findAccountByIdNotification;
             } else {
                 findAccountByIdNotification.addError("No account with such ID!");
@@ -56,15 +48,7 @@ public class AccountRepositoryMySQL implements AccountRepository{
             String query = "SELECT * FROM " + ACCOUNT + " WHERE client_id=" + clientID;
             ResultSet resultSet = statement.executeQuery(query);
             if(resultSet.next()){
-                Account account = new AccountBuilder()
-                        .setID(resultSet.getLong("id"))
-                        .setIdentificationNumber(resultSet.getString("identificationNumber"))
-                        .setType(resultSet.getString("type"))
-                        .setAmountMoney(resultSet.getLong("amountOfMoney"))
-                        .setCreationDate(resultSet.getDate("creationDate"))
-                        .setClientID(resultSet.getLong("client_id"))
-                        .build();
-                findAccountByClientNotification.setResult(account);
+                findAccountByClientNotification.setResult(getAccountFromResultSet(resultSet));
                 return findAccountByClientNotification;
             } else {
                 findAccountByClientNotification.addError("This client has no accounts!");
@@ -76,6 +60,28 @@ public class AccountRepositoryMySQL implements AccountRepository{
             findAccountByClientNotification.addError("Something is wrong with the Database!");
         }
         return findAccountByClientNotification;
+    }
+
+    @Override
+    public Notification<Account> findAccountByICN(String ICN) {
+        Notification<Account> notification = new Notification<>();
+        try {
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM " + ACCOUNT + " WHERE identificationNumber= '" + ICN + "'";
+            ResultSet resultSet = statement.executeQuery(query);
+            if(resultSet.next()){
+                notification.setResult(getAccountFromResultSet(resultSet));
+                return notification;
+            } else {
+                notification.addError("No account with such IBAN!");
+                return notification;
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            notification.addError("Something is wrong with the Database!");
+        }
+        return notification;
     }
 
     @Override
@@ -101,6 +107,7 @@ public class AccountRepositoryMySQL implements AccountRepository{
                 .setType(resultSet.getString("type"))
                 .setAmountMoney(resultSet.getLong("amountOfMoney"))
                 .setCreationDate(resultSet.getDate("creationDate"))
+                .setClientID(resultSet.getLong("client_id"))
                 .build();
     }
 
@@ -136,29 +143,52 @@ public class AccountRepositoryMySQL implements AccountRepository{
     }
 
     @Override
-    public boolean updateType(Long id, String type) {
+    public Notification<Boolean> updateAccount(Account account) {
+        Notification<Boolean> notification = new Notification<>();
         try {
-            Statement statement = connection.createStatement();
-            String query = "UPDATE "+ ACCOUNT + " SET type='" + type + "' where id=" + id;
-            statement.executeUpdate(query);
-            return true;
+            PreparedStatement insertStatement = connection
+                    .prepareStatement("UPDATE `" + ACCOUNT + "` SET  identificationNumber = ?, type= ?, amountOfMoney = ?, creationDate = ?, client_id = ? WHERE id = ?");
+            insertStatement.setString(1, account.getIdentificationNumber());
+            insertStatement.setString(2, account.getType());
+            insertStatement.setLong(3, account.getAmountOfMoney());
+            insertStatement.setDate(4, (Date) account.getCreationDate());
+            insertStatement.setLong(5, account.getClient_id());
+            insertStatement.setLong(6, account.getAccountID());
+            insertStatement.executeUpdate();
+            notification.setResult(true);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            return false;
+            notification.addError("There is an error in the database!");
+            notification.setResult(false);
         }
+        return notification;
     }
 
     @Override
-    public boolean updateAmountOfMoney(Long id, Long money) {
+    public Notification<Boolean> transferMoney (Account sender, Account receiver, Long amountOfMoney) {
+
+        Notification<Boolean> notification = new Notification<>();
         try {
             Statement statement = connection.createStatement();
-            String query = "UPDATE "+ ACCOUNT + " SET amountOfMoney=" + money + " where id=" + id;
-            statement.executeUpdate(query);
-            return true;
+
+            if (amountOfMoney > sender.getAmountOfMoney()) {
+                notification.addError("There are not enough money in the account!");
+                notification.setResult(false);
+            } else {
+                long afterSending = sender.getAmountOfMoney() - amountOfMoney;
+                long afterReceiving = receiver.getAmountOfMoney() + amountOfMoney;
+                String senderQuery =  "UPDATE `" + ACCOUNT + "` SET amountOfMoney = " + afterSending +" WHERE identificationNumber = '" + sender.getIdentificationNumber() + "'";
+                String receiverQuery =  "UPDATE `" + ACCOUNT + "` SET amountOfMoney = " + afterReceiving +" WHERE identificationNumber = '" + receiver.getIdentificationNumber() + "'";
+                statement.executeUpdate(senderQuery);
+                statement.executeUpdate(receiverQuery);
+                notification.setResult(true);
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            return false;
+            notification.addError("There is an error in the database!");
+            notification.setResult(false);
         }
+        return notification;
     }
 
     @Override

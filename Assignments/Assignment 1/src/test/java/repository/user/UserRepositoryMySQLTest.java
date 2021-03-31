@@ -46,7 +46,6 @@ public class UserRepositoryMySQLTest {
 
     }
 
-
     @Test
     public void save() {
         roleRepository.addRole(EMPLOYEE);
@@ -78,14 +77,15 @@ public class UserRepositoryMySQLTest {
 
     @Test
     public void updatePassword() {
-        userRepository.updatePassword(userRepository.findByUsername("gabriela.truta1899@gmail.com").getResult(), "GabrielaTruta3!");
-        Assert.assertTrue(userRepository.findByUsernameAndPassword("gabriela.truta1899@gmail.com", "gabrielaT3!").hasErrors());
+        User user = userRepository.findByUsername("gabriela.truta1899@gmail.com").getResult();
+        user.setPassword("GabrielaTruta3!");
+        Assert.assertTrue(userRepository.updateUser(user).getResult());
     }
 
     @Test
     public void deleteUser() {
-        userRepository.deleteUser("diana.dada@yahoo.com");
-        Assert.assertTrue(userRepository.findByUsername("diana.dada@yahoo.com").hasErrors());
+
+        Assert.assertTrue(userRepository.deleteUser("diana.dada@yahoo.com"));
     }
 
     @Test

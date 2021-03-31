@@ -11,7 +11,7 @@ public class ClientValidator {
 
     private static final String NAME_VALIDATOR = "^[a-zA-Z]+$";
     private static final String SURNAME_VALIDATOR = "^[a-zA-Z]+$";
-    private static final String IDENTITY_CARD_NUMBER_VALIDATOR = "^[a-zA-Z]{2}+[0-9]{6}+$";
+    //private static final String IDENTITY_CARD_NUMBER_VALIDATOR = "^[a-zA-Z]{2}+[0-9]{6}+$";
     private static final String CNP_VALIDATOR = "^[0-9]{13}+$";
     private static final String MAIL_VALIDATOR = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
     private static final String PHONE_VALIDATOR = "^[0-9]{10}+$";
@@ -32,7 +32,7 @@ public class ClientValidator {
     public boolean validate() {
         validateName(client.getName());
         validateSurname(client.getSurname());
-        validateIdentityCardNumber(client.getIdentityCardNumber());
+        //validateIdentityCardNumber(client.getIdentityCardNumber());
         validateCNP(client.getCNP());
         validateMail(client.getMail());
         validatePhone(client.getPhoneNumber());
@@ -51,11 +51,11 @@ public class ClientValidator {
         }
     }
 
-    private void validateIdentityCardNumber(String identityCardNumber) {
-        if (!Pattern.compile(IDENTITY_CARD_NUMBER_VALIDATOR).matcher(identityCardNumber).matches()) {
-            errors.add("Invalid identity card number! It should start with 2 letters and be preceded by 4 numbers!");
-        }
-    }
+//    private void validateIdentityCardNumber(String identityCardNumber) {
+//        if (!Pattern.compile(IDENTITY_CARD_NUMBER_VALIDATOR).matcher(identityCardNumber).matches()) {
+//            errors.add("Invalid identity card number! It should start with 2 letters and be preceded by 6 numbers!");
+//        }
+//    }
 
     private void validateCNP(String cnp) {
         if (!Pattern.compile(CNP_VALIDATOR).matcher(cnp).matches()) {
